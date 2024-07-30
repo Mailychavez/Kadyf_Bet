@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Compra</title>
+    <style>
+        /* Estilos base */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background-color: #ffffff;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            width: 90%;
+            max-width: 800px;
+        }
+        .form-header {
+            background-color: #4CAF50;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .form-body {
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333333;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="number"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="number"]:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #4CAF50;
+        }
+        .form-group textarea {
+            height: 100px;
+        }
+        .form-group select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #ffffff;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 14l8-6H4z" /></svg>');
+            background-repeat: no-repeat;
+            background-position-x: calc(100% - 12px);
+            background-position-y: center;
+            padding-right: 30px;
+        }
+        .form-group input[type="submit"] {
+            background-color: #4CAF50;
+            color: #ffffff;
+            border: none;
+            padding: 16px 32px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .success-message {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none; /* Inicialmente oculto */
+            text-align: center;
+            position: relative;
+            animation: showSuccess 0.5s ease forwards;
+        }
+        @keyframes showSuccess {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .form-group.error input,
+        .form-group.error textarea,
+        .form-group.error select {
+            border-color: #dc3545 !important;
+        }
+        @media screen and (max-width: 600px) {
+            .form-body {
+                padding: 10px;
+            }
+            .form-group input[type="submit"] {
+                width: 100%;
+            }
+        }
+        /* Estilos adicionales */
+        .required-symbol {
+            color: #dc3545;
+            font-size: 18px;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        .form-group .input-container {
+            position: relative;
+        }
+        .input-container .tooltip {
+            position: absolute;
+            top: -30px; /* Ajuste para que aparezca más arriba */
+            right: -25px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 12px;
+            display: none;
+        }
+        .input-container:hover .tooltip {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            Formulario de Compra
+        </div>
+        <div class="form-body">
+            <form id="formularioCompra" action="#" method="post" onsubmit="return validarFormulario()">
+                
+
+                <div class="form-group">
+                    <label for="cantidad">Cantidad <span class="required-symbol">*</span>:</label>
+                    <div class="input-container">
+                        <input type="number" id="cantidad" name="cantidad" min="1" placeholder="Ingrese la cantidad" required>
+                        <div class="tooltip">Ingrese la cantidad de productos que desea comprar (mínimo 1).</div>
+                    </div>
+                    <div class="error-message"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo <span class="required-symbol">*</span>:</label>
+                    <div class="input-container">
+                        <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre completo" required>
+                        <div class="tooltip">Ingrese su nombre completo para el envío.</div>
+                    </div>
+                    <div class="error-message"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Correo Electrónico <span class="required-symbol">*</span>:</label>
+                    <div class="input-container">
+                        <input type="email" id="email" name="email" placeholder="Ingrese su correo electrónico" required>
+                        <div class="tooltip">Ingrese su correo electrónico para recibir la confirmación de la compra.</div>
+                    </div>
+                    <div class="error-message"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono de Contacto:</label>
+                    <div class="input-container">
+                        <input type="text" id="telefono" name="telefono" placeholder="Ingrese su número de teléfono">
+                        <div class="tooltip">Ingrese su número de teléfono para contactarlo en caso necesario.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="direccion">Dirección de Envío <span class="required-symbol">*</span>:</label>
+                    <div class="input-container">
+                        <textarea id="direccion" name="direccion" rows="4" placeholder="Ingrese su dirección completa" required></textarea>
+                        <div class="tooltip">Ingrese la dirección completa a donde se enviará el producto.</div>
+                    </div>
+                    <div class="error-message"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="metodo_pago">Método de Pago <span class="required-symbol">*</span>:</label>
+                    <div class="input-container">
+                        <select id="metodo_pago" name="metodo_pago" required>
+                            <option value="" disabled selected>Seleccione un método de pago</option>
+                            <option value="tarjeta">Tarjeta de Crédito</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="transferencia">Transferencia Bancaria</option>
+                        </select>
+                        <div class="tooltip">Seleccione el método de pago que prefiera para realizar la transacción.</div>
+                    </div>
+                    <div class="error-message"></div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Confirmar Compra">
+                </div>
+            </form>
+
+            <div id="mensajeExito" class="success-message">
+                <p style="font-size: 50px; margin-bottom: 10px;">¡Compra realizada!</p>
+                <p>Gracias por su compra.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function validarFormulario() {
+            resetearMensajesError(); // Reiniciar mensajes de error
+            
+            
+            var cantidad = document.getElementById('cantidad').value.trim();
+            var nombre = document.getElementById('nombre').value.trim();
+            var email = document.getElementById('email').value.trim();
+            var telefono = document.getElementById('telefono').value.trim();
+            var direccion = document.getElementById('direccion').value.trim();
+            var metodo_pago = document.getElementById('metodo_pago').value;
+
+            var error = false;
+
+            // Validar que los campos no estén vacíos
+            
+            if (cantidad === '' || cantidad <= 0) {
+                mostrarError('cantidad', 'Por favor, ingrese una cantidad válida.');
+                error = true;
+            }
+            if (nombre === '') {
+                mostrarError('nombre', 'Por favor, ingrese su nombre completo.');
+                error = true;
+            }
+            if (email === '') {
+                mostrarError('email', 'Por favor, ingrese su correo electrónico.');
+                error = true;
+            } else {
+                // Validar formato de email
+                var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    mostrarError('email', 'Por favor, ingrese un correo electrónico válido.');
+                    error = true;
+                }
+            }
+            if (telefono !== '' && !validarTelefono(telefono)) {
+                mostrarError('telefono', 'Por favor, ingrese un número de teléfono válido.');
+                error = true;
+            }
+            if (direccion === '') {
+                mostrarError('direccion', 'Por favor, ingrese su dirección de envío.');
+                error = true;
+            }
+            if (metodo_pago === '') {
+                mostrarError('metodo_pago', 'Por favor, seleccione un método de pago.');
+                error = true;
+            }
+
+            if (!error) {
+                // Simular envío exitoso (aquí se enviaría a tu backend real)
+                setTimeout(function() {
+                    document.getElementById('formularioCompra').reset(); // Reiniciar formulario
+                    document.getElementById('mensajeExito').style.display = 'block'; // Mostrar mensaje de éxito
+                    setTimeout(function() {
+                        document.getElementById('mensajeExito').style.display = 'none'; // Ocultar mensaje después de unos segundos
+                    }, 6000); // 3 segundos
+                }, 1000); // Simulación de tiempo de carga
+
+                return false; // Evitar el envío real del formulario
+            }
+
+            return false; // Evitar el envío real del formulario si hay errores
+        }
+
+        function mostrarError(idCampo, mensaje) {
+            var campo = document.getElementById(idCampo);
+            var errorDiv = campo.nextElementSibling; // Obtener el siguiente elemento (que debería ser el div de error)
+            if (errorDiv && errorDiv.classList.contains('error-message')) {
+                errorDiv.textContent = mensaje;
+            } else {
+                errorDiv = document.createElement('div');
+                errorDiv.textContent = mensaje;
+                errorDiv.className = 'error-message';
+                campo.parentNode.insertBefore(errorDiv, campo.nextSibling); // Insertar mensaje de error después del campo
+            }
+            campo.classList.add('error'); // Agregar clase de estilo para resaltar error
+        }
+
+        function resetearMensajesError() {
+            var campos = document.querySelectorAll('.form-group input, .form-group textarea, .form-group select');
+            campos.forEach(function(campo) {
+                campo.classList.remove('error');
+                var errorDiv = campo.nextElementSibling;
+                if (errorDiv && errorDiv.classList.contains('error-message')) {
+                    errorDiv.textContent = '';
+                }
+            });
+        }
+
+        function validarTelefono(telefono) {
+            // Validar formato de teléfono (opcional)
+            var telefonoRegex = /^\d{8}$/;
+            return telefonoRegex.test(telefono);
+        }
+    </script>
+</body>
+</html>
